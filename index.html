@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>A Little Question For You... 🐼❤️</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+  <!-- Ambient floating elements (hearts & sparkles) -->
+  <div class="ambient-bg" id="ambientBg" aria-hidden="true"></div>
+
+  <!-- Audio Player Pill -->
+  <header class="top-nav">
+    <div class="audio-control" id="audioControl" title="Toggle background music">
+      <div class="vinyl-disc" id="vinylDisc">
+        <div class="vinyl-grooves"></div>
+        <div class="vinyl-center">🐼</div>
+      </div>
+      <div class="audio-info">
+        <span class="music-label" id="musicLabel">Monalizaye Nesh 🎶</span>
+        <span class="music-note" id="musicNote">🎵</span>
+      </div>
+      <audio id="bgMusic" loop preload="auto">
+        <source src="assets/music.mp3" type="audio/mpeg">
+      </audio>
+    </div>
+  </header>
+
+  <main class="main-container">
+
+    <!-- ==============================================
+         PHASE 1: THE EVASIVE QUESTION ARENA
+         ============================================== -->
+    <section class="game-section" id="gameSection">
+      <!-- Mascot Panda -->
+      <div class="mascot-wrapper" id="mascotWrapper">
+        <div class="mascot-speech-bubble" id="speechBubble">
+          <span>Do you love me? 🥺👉👈</span>
+        </div>
+        
+        <!-- SVG Interactive Panda Character -->
+        <div class="panda-character" id="pandaCharacter">
+          <svg viewBox="0 0 200 200" class="panda-svg">
+            <!-- Ears -->
+            <circle cx="45" cy="50" r="28" class="panda-black panda-ear ear-left" />
+            <circle cx="155" cy="50" r="28" class="panda-black panda-ear ear-right" />
+            <circle cx="45" cy="50" r="14" class="panda-pink ear-inner" />
+            <circle cx="155" cy="50" r="14" class="panda-pink ear-inner" />
+
+            <!-- Head Body -->
+            <ellipse cx="100" cy="115" rx="72" ry="65" class="panda-white panda-face" />
+
+            <!-- Eye Patches -->
+            <ellipse cx="65" cy="105" rx="22" ry="26" transform="rotate(-15 65 105)" class="panda-black" />
+            <ellipse cx="135" cy="105" rx="22" ry="26" transform="rotate(15 135 105)" class="panda-black" />
+
+            <!-- Pupils / Eyeballs -->
+            <g id="pandaEyes">
+              <!-- Left Eye -->
+              <circle cx="68" cy="103" r="10" class="panda-white eye-white" />
+              <circle cx="70" cy="104" r="6" class="panda-eye-pupil" id="leftPupil" />
+              <circle cx="67" cy="101" r="2.5" class="panda-white eye-sparkle" />
+              <!-- Right Eye -->
+              <circle cx="132" cy="103" r="10" class="panda-white eye-white" />
+              <circle cx="130" cy="104" r="6" class="panda-eye-pupil" id="rightPupil" />
+              <circle cx="133" cy="101" r="2.5" class="panda-white eye-sparkle" />
+            </g>
+
+            <!-- Cheeks Blush -->
+            <ellipse cx="48" cy="125" rx="12" ry="7" class="panda-blush" />
+            <ellipse cx="152" cy="125" rx="12" ry="7" class="panda-blush" />
+
+            <!-- Cute Little Nose -->
+            <polygon points="100,122 93,115 107,115" class="panda-black panda-nose" />
+
+            <!-- Cute Mouth -->
+            <path d="M 92 125 Q 100 133 100 126 Q 100 133 108 125" class="panda-mouth" />
+
+            <!-- Paws / Hands holding Heart -->
+            <g class="panda-paws">
+              <ellipse cx="50" cy="165" rx="18" ry="14" class="panda-black paw-left" />
+              <ellipse cx="150" cy="165" rx="18" ry="14" class="panda-black paw-right" />
+              <!-- Floating Heart in paws -->
+              <g class="heart-prop" id="heartProp">
+                <path d="M 100 152 C 100 145 90 138 82 146 C 72 156 100 180 100 180 C 100 180 128 156 118 146 C 110 138 100 145 100 152 Z" class="prop-heart-path" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Question Prompt -->
+      <h1 class="question-title">Do you love me?</h1>
+      <p class="question-sub">Pick carefully... there's only one scientifically accurate option 🐼🔬</p>
+
+      <!-- Button Arena -->
+      <div class="buttons-container" id="buttonsContainer">
+        <button type="button" class="btn btn-yes" id="yesBtn">
+          <span class="btn-text">YES! 🥰</span>
+          <span class="btn-subtext">Obviously & completely</span>
+        </button>
+
+        <button type="button" class="btn btn-no" id="noBtn">
+          <span class="btn-text" id="noBtnText">No</span>
+        </button>
+      </div>
+
+      <div class="evade-counter" id="evadeCounter" aria-live="polite"></div>
+    </section>
+
+    <!-- ==============================================
+         PHASE 2: THE "I LOVE YOU LIKE..." SHOWCASE
+         ============================================== -->
+    <section class="reveal-section hidden" id="revealSection">
+      
+      <!-- Docked Panda Mascot cheering at side -->
+      <aside class="docked-panda" id="dockedPanda">
+        <div class="docked-bubble" id="dockedBubble">
+          <span>Hehe I knew it!! Now look at this... 👇</span>
+        </div>
+        <div class="mini-panda-avatar">
+          🐼
+        </div>
+      </aside>
+
+      <!-- Main Showcase Header -->
+      <div class="showcase-header">
+        <div class="badge-pill">✨ 1 Year & ~2 Months Together ✨</div>
+        <h2 class="showcase-title">Reasons & Ways I Love You</h2>
+        <p class="showcase-subtitle">Some poetic, some unhinged, all 100% true.</p>
+      </div>
+
+      <!-- Carousel Card Deck -->
+      <div class="cards-carousel" id="cardsCarousel">
+        <div class="card-track" id="cardTrack">
+          <!-- Dynamic cards will be rendered here by script.js -->
+        </div>
+      </div>
+
+      <!-- Carousel Navigation & Controls -->
+      <div class="carousel-nav">
+        <button type="button" class="nav-btn prev-btn" id="prevCardBtn" aria-label="Previous line">
+          ← Back
+        </button>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <button type="button" class="nav-btn next-btn" id="nextCardBtn" aria-label="Next line">
+          Next Love Note →
+        </button>
+      </div>
+
+      <div class="auto-play-toggle">
+        <button type="button" class="mini-text-btn" id="autoPlayBtn">
+          ▶ Auto-read Notes
+        </button>
+      </div>
+
+      <!-- ==============================================
+           PHASE 3: THE GRAND FINALE
+           ============================================== -->
+      <div class="grand-finale hidden" id="grandFinale">
+        <div class="finale-card">
+          <div class="sparkle-crown">👑💖</div>
+          <h2 class="finale-bold-statement">
+            I hope you know how special you are to me!
+          </h2>
+          <div class="finale-divider"></div>
+          <p class="finale-letter">
+            From the very first day to 1 year and almost 2 months later... every laugh, every football banter, every quiet moment, and every Messi highlight has been better because it’s with you. 
+          </p>
+          <p class="finale-signature">
+            Forever yours, <br>
+            <strong>Your Panda 🐼❤️</strong>
+          </p>
+
+          <button type="button" class="btn btn-redo" id="redoBtn">
+            <span>🔄 Experience It All Over Again</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>Crafted with love by Panda for his favorite person in the entire world 🌎✨</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

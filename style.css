@@ -1,0 +1,874 @@
+:root {
+  --primary-pink: #ff6b8b;
+  --primary-pink-dark: #e84368;
+  --primary-pink-light: #ffe8ee;
+  --warm-cream: #fff9f6;
+  --card-bg: rgba(255, 255, 255, 0.94);
+  --text-main: #2d1d29;
+  --text-muted: #6b5c68;
+  --accent-gold: #f59e0b;
+  --united-red: #c70101;
+  --liverpool-red: #d00027;
+  --messi-blue: #75aadb;
+  --border-radius-lg: 24px;
+  --border-radius-sm: 14px;
+  --shadow-soft: 0 10px 30px rgba(232, 67, 104, 0.15);
+  --shadow-hover: 0 16px 40px rgba(232, 67, 104, 0.25);
+  --font-display: 'Fredoka', cursive, sans-serif;
+  --font-body: 'Outfit', -apple-system, sans-serif;
+  --font-handwriting: 'Caveat', cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: var(--font-body);
+  background: radial-gradient(circle at 10% 20%, #fff1f3 0%, #fef5f0 50%, #f7eff9 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* =========================================
+   Ambient Background Floating Elements
+   ========================================= */
+.ambient-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.floating-heart {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.45;
+  animation: floatUp 8s ease-in infinite;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) scale(0.6) rotate(0deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.5;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-10vh) scale(1.1) rotate(25deg);
+    opacity: 0;
+  }
+}
+
+/* =========================================
+   Top Navigation & Audio Bar
+   ========================================= */
+.top-nav {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  justify-content: flex-end;
+  padding: 16px 24px;
+  position: relative;
+  z-index: 10;
+}
+
+.audio-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 107, 139, 0.25);
+  padding: 8px 16px 8px 10px;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.audio-control:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(255, 107, 139, 0.2);
+  border-color: var(--primary-pink);
+}
+
+.vinyl-disc {
+  width: 38px;
+  height: 38px;
+  background: radial-gradient(circle, #222 35%, #111 60%, #333 100%);
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.vinyl-grooves {
+  position: absolute;
+  inset: 4px;
+  border-radius: 50%;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+.vinyl-center {
+  font-size: 14px;
+}
+
+.spinning {
+  animation: spinVinyl 3s linear infinite;
+}
+
+@keyframes spinVinyl {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.audio-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.music-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.music-note {
+  font-size: 0.95rem;
+  transition: transform 0.2s;
+}
+
+.audio-control.is-playing .music-note {
+  animation: bounceNote 1.2s ease-in-out infinite;
+}
+
+@keyframes bounceNote {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px) scale(1.15); }
+}
+
+/* =========================================
+   Main Content Layout
+   ========================================= */
+.main-container {
+  width: 100%;
+  max-width: 780px;
+  padding: 10px 20px 40px;
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* =========================================
+   Panda Mascot SVG & Animation
+   ========================================= */
+.mascot-wrapper {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.mascot-speech-bubble {
+  background: #fff;
+  padding: 10px 20px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  border: 2px solid var(--primary-pink-light);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 12px;
+  position: relative;
+  animation: floatBubble 3s ease-in-out infinite;
+  transition: all 0.3s ease;
+  text-align: center;
+}
+
+.mascot-speech-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 10px 8px 0;
+  border-style: solid;
+  border-color: #fff transparent;
+  display: block;
+  width: 0;
+}
+
+@keyframes floatBubble {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.panda-character {
+  width: 170px;
+  height: 170px;
+  cursor: pointer;
+  filter: drop-shadow(0 12px 24px rgba(255, 107, 139, 0.2));
+  animation: pandaBreathe 4s ease-in-out infinite;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.panda-character:hover {
+  transform: scale(1.05);
+}
+
+@keyframes pandaBreathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03) translateY(-3px); }
+}
+
+.panda-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.panda-black { fill: #2b2b2b; }
+.panda-white { fill: #ffffff; }
+.panda-pink { fill: #ffb8c6; }
+.panda-blush { fill: #ff7597; opacity: 0.6; }
+.panda-mouth { stroke: #2b2b2b; stroke-width: 3.5; stroke-linecap: round; fill: none; }
+.prop-heart-path { fill: var(--primary-pink); }
+
+.heart-prop {
+  transform-origin: 100px 160px;
+  animation: heartBeat 1.4s ease-in-out infinite;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+
+.ear-left {
+  transform-origin: 45px 50px;
+  animation: earWiggle 5s ease-in-out infinite;
+}
+
+.ear-right {
+  transform-origin: 155px 50px;
+  animation: earWiggle 5s ease-in-out 0.5s infinite;
+}
+
+@keyframes earWiggle {
+  0%, 90%, 100% { transform: rotate(0deg); }
+  93% { transform: rotate(-8deg); }
+  97% { transform: rotate(8deg); }
+}
+
+/* Mascot reaction states */
+.panda-character.is-shocked {
+  animation: pandaShock 0.5s ease;
+}
+
+@keyframes pandaShock {
+  0%, 100% { transform: scale(1); }
+  30% { transform: scale(1.15) translateY(-8px) rotate(-4deg); }
+  60% { transform: scale(1.1) translateY(-4px) rotate(4deg); }
+}
+
+.panda-character.is-celebrating {
+  animation: pandaJump 0.8s ease infinite alternate;
+}
+
+@keyframes pandaJump {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-16px) scale(1.08) rotate(3deg); }
+}
+
+/* =========================================
+   Phase 1: Question Arena & Evasive Button
+   ========================================= */
+.game-section {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  min-height: 480px;
+}
+
+.question-title {
+  font-family: var(--font-display);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.5px;
+  margin-bottom: 8px;
+}
+
+.question-sub {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  margin-bottom: 36px;
+  max-width: 480px;
+}
+
+.buttons-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  width: 100%;
+  max-width: 500px;
+  min-height: 120px;
+  position: relative;
+}
+
+.btn {
+  font-family: var(--font-display);
+  border: none;
+  cursor: pointer;
+  border-radius: 50px;
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+}
+
+/* YES Button */
+.btn-yes {
+  background: linear-gradient(135deg, #ff6b8b, #ff416c);
+  color: #fff;
+  padding: 18px 42px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  box-shadow: 0 10px 25px rgba(255, 65, 108, 0.4);
+  z-index: 5;
+}
+
+.btn-yes:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 15px 35px rgba(255, 65, 108, 0.55);
+}
+
+.btn-yes:active {
+  transform: scale(0.96);
+}
+
+.btn-subtext {
+  font-size: 0.78rem;
+  font-family: var(--font-body);
+  font-weight: 500;
+  opacity: 0.92;
+  margin-top: 2px;
+}
+
+/* NO Button (The Evasive One!) */
+.btn-no {
+  background: #ffffff;
+  color: var(--text-muted);
+  border: 2px solid #e0d8dc;
+  padding: 16px 36px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+  z-index: 4;
+  white-space: nowrap;
+  touch-action: none;
+}
+
+.btn-no.is-teleporting {
+  position: fixed !important;
+  z-index: 9999 !important;
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), background-color 0.2s;
+}
+
+.evade-counter {
+  margin-top: 32px;
+  font-size: 0.95rem;
+  color: var(--primary-pink-dark);
+  font-weight: 600;
+  min-height: 24px;
+}
+
+/* =========================================
+   Phase 2: Reveal & "I Love You Like..."
+   ========================================= */
+.reveal-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.8s ease-out forwards;
+  position: relative;
+  width: 100%;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* Docked Panda at Side */
+.docked-panda {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+  z-index: 50;
+  pointer-events: none;
+  animation: slideInDock 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes slideInDock {
+  from { transform: translateX(-100px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.mini-panda-avatar {
+  width: 58px;
+  height: 58px;
+  background: #fff;
+  border: 3px solid var(--primary-pink);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+  animation: miniBounce 3s ease-in-out infinite;
+}
+
+@keyframes miniBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.docked-bubble {
+  background: #ffffff;
+  padding: 8px 14px;
+  border-radius: 14px;
+  border-bottom-left-radius: 2px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  border: 1.5px solid var(--primary-pink-light);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  max-width: 200px;
+}
+
+.showcase-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.badge-pill {
+  display: inline-block;
+  background: linear-gradient(135deg, #fff0f5, #ffe4e9);
+  color: var(--primary-pink-dark);
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: 30px;
+  border: 1px solid rgba(255, 107, 139, 0.3);
+  margin-bottom: 12px;
+  box-shadow: 0 2px 10px rgba(255, 107, 139, 0.1);
+}
+
+.showcase-title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4.5vw, 2.8rem);
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 6px;
+}
+
+.showcase-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+/* =========================================
+   Interactive Love Cards Carousel
+   ========================================= */
+.cards-carousel {
+  width: 100%;
+  max-width: 580px;
+  min-height: 280px;
+  perspective: 1000px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 15px 0 20px;
+  position: relative;
+}
+
+.card-track {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  min-height: 270px;
+}
+
+.love-card {
+  width: 100%;
+  background: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  padding: 36px 30px;
+  box-shadow: 0 15px 35px rgba(232, 67, 104, 0.12), 0 5px 15px rgba(0, 0, 0, 0.04);
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  transform: translateY(20px) scale(0.94);
+  pointer-events: none;
+  transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.love-card.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+  position: relative;
+}
+
+.card-icon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  animation: iconPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes iconPop {
+  0% { transform: scale(0.4) rotate(-15deg); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.card-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.tag-banter { background: #ffebee; color: #c62828; }
+.tag-poetic { background: #f3e5f5; color: #7b1fa2; }
+.tag-football { background: #e8f5e9; color: #2e7d32; }
+.tag-messi { background: #e1f5fe; color: #0277bd; }
+.tag-sweet { background: #fff3e0; color: #e65100; }
+
+.card-line-main {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 3.2vw, 1.65rem);
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+
+.card-line-sub {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  font-style: italic;
+  max-width: 440px;
+}
+
+/* Football Card Stylings */
+.love-card.theme-united {
+  border-top: 4px solid var(--united-red);
+}
+.love-card.theme-liverpool {
+  border-top: 4px solid var(--liverpool-red);
+}
+.love-card.theme-messi {
+  border-top: 4px solid var(--messi-blue);
+}
+
+/* =========================================
+   Carousel Navigation Controls
+   ========================================= */
+.carousel-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.nav-btn {
+  background: #ffffff;
+  border: 1.5px solid #ebd9e1;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: var(--primary-pink-light);
+  border-color: var(--primary-pink);
+  color: var(--primary-pink-dark);
+  transform: translateY(-2px);
+}
+
+.nav-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.next-btn {
+  background: linear-gradient(135deg, #ff6b8b, #ff416c);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 14px rgba(255, 65, 108, 0.3);
+}
+
+.next-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #ff5074, #f8315e);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(255, 65, 108, 0.45);
+}
+
+.carousel-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e2d2db;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.dot.active {
+  width: 22px;
+  border-radius: 10px;
+  background: var(--primary-pink);
+}
+
+.auto-play-toggle {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.mini-text-btn {
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 16px;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.mini-text-btn:hover {
+  color: var(--primary-pink-dark);
+  background: rgba(255, 107, 139, 0.1);
+}
+
+/* =========================================
+   Phase 3: The Grand Finale Card
+   ========================================= */
+.grand-finale {
+  width: 100%;
+  max-width: 600px;
+  margin-top: 10px;
+  animation: finaleUnfold 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes finaleUnfold {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.finale-card {
+  background: linear-gradient(145deg, #ffffff 0%, #fff7fa 100%);
+  border-radius: var(--border-radius-lg);
+  padding: 44px 34px;
+  border: 2px solid rgba(255, 107, 139, 0.35);
+  box-shadow: 0 20px 50px rgba(255, 107, 139, 0.2), 0 0 0 6px rgba(255, 255, 255, 0.7);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.sparkle-crown {
+  font-size: 2.8rem;
+  margin-bottom: 12px;
+  animation: crownWiggle 2.5s ease-in-out infinite;
+}
+
+@keyframes crownWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-5deg) scale(1.05); }
+  75% { transform: rotate(5deg) scale(1.05); }
+}
+
+.finale-bold-statement {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 4.2vw, 2.5rem);
+  font-weight: 700;
+  color: #d81b60;
+  line-height: 1.25;
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+  text-shadow: 0 2px 10px rgba(216, 27, 96, 0.15);
+}
+
+.finale-divider {
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #ff6b8b, #ff416c);
+  border-radius: 2px;
+  margin: 0 auto 20px;
+}
+
+.finale-letter {
+  font-size: 1.12rem;
+  line-height: 1.7;
+  color: var(--text-main);
+  margin-bottom: 22px;
+}
+
+.finale-signature {
+  font-family: var(--font-handwriting);
+  font-size: 1.6rem;
+  color: var(--primary-pink-dark);
+  line-height: 1.3;
+  margin-bottom: 32px;
+}
+
+.finale-signature strong {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.btn-redo {
+  background: linear-gradient(135deg, #2d1d29, #483244);
+  color: #ffffff;
+  padding: 16px 36px;
+  font-size: 1.15rem;
+  font-weight: 600;
+  border-radius: 50px;
+  box-shadow: 0 8px 20px rgba(45, 29, 41, 0.25);
+  margin: 0 auto;
+}
+
+.btn-redo:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(45, 29, 41, 0.35);
+  background: linear-gradient(135deg, #ff416c, #ff6b8b);
+}
+
+/* =========================================
+   Footer
+   ========================================= */
+.site-footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.85rem;
+  color: #9d8995;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================
+   Responsive Adjustments
+   ========================================= */
+@media (max-width: 640px) {
+  .top-nav {
+    justify-content: center;
+    padding: 12px 16px;
+  }
+  
+  .docked-panda {
+    bottom: 12px;
+    left: 12px;
+    transform: scale(0.85);
+    transform-origin: bottom left;
+  }
+  
+  .docked-bubble {
+    display: none; /* Keep clean on small mobile screens */
+  }
+
+  .love-card {
+    padding: 28px 20px;
+  }
+
+  .finale-card {
+    padding: 32px 20px;
+  }
+
+  .buttons-container {
+    gap: 16px;
+  }
+
+  .btn-yes {
+    padding: 16px 32px;
+    font-size: 1.25rem;
+  }
+
+  .btn-no {
+    padding: 14px 26px;
+    font-size: 1.1rem;
+  }
+}
