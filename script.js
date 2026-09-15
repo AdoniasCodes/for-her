@@ -21,12 +21,12 @@ const LOVE_NOTES = [
     sub: "A pure, weekly, unconditional suffering... yet my devotion never wavers."
   },
   {
-    icon: "🔴",
-    tag: "Liverpool Love",
-    tagClass: "tag-football",
-    themeClass: "theme-liverpool",
-    main: "I love you like Liverpool loves Klopp's fist pumps & high-intensity chaos 🔥⚡",
-    sub: "You keep my heart racing like an Anfield 90+6' stoppage-time winner."
+    icon: "🫣",
+    tag: "True Devotion",
+    tagClass: "tag-banter",
+    themeClass: "theme-united",
+    main: "I love you even through that 7-0 Anfield match... 💔🙃",
+    sub: "If our love survived that night, we are officially unbreakable forever."
   },
   {
     icon: "🐐",
@@ -37,12 +37,12 @@ const LOVE_NOTES = [
     sub: "Pure genius, breathtaking every single time, and the undisputed best."
   },
   {
-    icon: "🫣",
-    tag: "True Devotion",
-    tagClass: "tag-banter",
-    themeClass: "theme-united",
-    main: "I love you even through that 7-0 Anfield match... 💔🙃",
-    sub: "If our love survived that night, we are officially unbreakable forever."
+    icon: "🌧️",
+    tag: "Poetic",
+    tagClass: "tag-poetic",
+    themeClass: "",
+    main: "I love you like rain falling softly on thirsty earth 🌧️🌿",
+    sub: "Gentle, calming, and quietly bringing life back to everything."
   },
   {
     icon: "☕",
@@ -53,12 +53,12 @@ const LOVE_NOTES = [
     sub: "Comforting, grounding, and instantly making my whole world better."
   },
   {
-    icon: "📺",
-    tag: "VAR Check",
-    tagClass: "tag-banter",
+    icon: "🎻",
+    tag: "Timeless",
+    tagClass: "tag-poetic",
     themeClass: "",
-    main: "I love you like a dramatic VAR review that always rules in your favor 📺✨",
-    sub: "No controversy here: you're 100% the champion of my heart."
+    main: "I love you like an old melody that never loses its magic 🎻✨",
+    sub: "Familiar, comforting, and sounding sweeter with every passing year."
   },
   {
     icon: "⏳",
@@ -69,6 +69,14 @@ const LOVE_NOTES = [
     sub: "That's 400+ days, 10,000+ hours, and I'd choose you in every single one of them."
   },
   {
+    icon: "🏡",
+    tag: "Safe Haven",
+    tagClass: "tag-sweet",
+    themeClass: "",
+    main: "I love you like coming home after a long, exhausting journey 🏡🕯️",
+    sub: "The exact moment your shoulders drop and your heart feels completely safe."
+  },
+  {
     icon: "🌙",
     tag: "Poetic",
     tagClass: "tag-poetic",
@@ -77,28 +85,28 @@ const LOVE_NOTES = [
     sub: "Quietly, steadily, constantly drawn toward you without even trying."
   },
   {
+    icon: "✨",
+    tag: "Poetic",
+    tagClass: "tag-poetic",
+    themeClass: "",
+    main: "I love you like a sky full of quiet stars when the whole world is asleep 🌌💫",
+    sub: "Steady, breathtaking, and lighting up even the darkest nights."
+  },
+  {
+    icon: "📖",
+    tag: "Poetic",
+    tagClass: "tag-poetic",
+    themeClass: "",
+    main: "I love you like a favorite page folded in a book you cherish 📖🕯️",
+    sub: "The exact story I will always return to, over and over again."
+  },
+  {
     icon: "🏆",
     tag: "The GOAT",
     tagClass: "tag-messi",
     themeClass: "theme-messi",
     main: "I love you like Messi loved kissing the 2022 World Cup trophy 🏆🌟",
     sub: "Because having you by my side is the greatest victory I could ever dream of."
-  },
-  {
-    icon: "🥀",
-    tag: "Banter",
-    tagClass: "tag-banter",
-    themeClass: "theme-united",
-    main: "I love you more than any trophy Manchester United won't win this season 😂🏆",
-    sub: "Their trophy cabinet might be empty, but my heart is completely full."
-  },
-  {
-    icon: "💌",
-    tag: "Sweet",
-    tagClass: "tag-sweet",
-    themeClass: "",
-    main: "I love you like quiet inside jokes whispered across a crowded room 🤫💫",
-    sub: "The kind where just one glance between us says more than a thousand words."
   },
   {
     icon: "🎨",
@@ -218,47 +226,19 @@ function initEyeTracking() {
 }
 
 /* =========================================================================
-   3. EVASIVE "NO" BUTTON ENGINE
+   3. 3-LEVEL EVASIVE "NO" ENGINE
    ========================================================================= */
-function triggerEvade(e) {
-  if (e) {
-    e.preventDefault();
-    e.stopPropagation();
-  }
+let noAttemptLevel = 0; // 0: initial, 1: first dodge, 2: second dodge, 3: vanished & YES takes over ~50%
 
-  evadeCount++;
-
-  // Panda shock animation & speech update
-  pandaCharacter.classList.add("is-shocked");
-  setTimeout(() => pandaCharacter.classList.remove("is-shocked"), 500);
-
-  const speechIndex = Math.min(evadeCount, PANDA_SPEECH_REACTIONS.length - 1);
-  speechBubble.querySelector("span").textContent = PANDA_SPEECH_REACTIONS[speechIndex];
-
-  // Update button text
-  const textIndex = Math.min(evadeCount, NO_BUTTON_TEXTS.length - 1);
-  noBtnText.textContent = NO_BUTTON_TEXTS[textIndex];
-
-  // Update evasive counter message
-  if (evadeCount >= 3) {
-    evadeCounter.textContent = `Dodged ${evadeCount} times! You can't escape my love 🏃‍♂️💨`;
-  }
-
-  // Make YES button grow smoothly!
-  yesScale += 0.12;
-  yesBtn.style.transform = `scale(${yesScale})`;
-
-  // Calculate random safe spot on screen
+function teleportNoButton() {
   noBtn.classList.add("is-teleporting");
-
-  const btnWidth = noBtn.offsetWidth || 120;
+  const margin = 24;
+  const btnWidth = noBtn.offsetWidth || 110;
   const btnHeight = noBtn.offsetHeight || 50;
-  const margin = 20;
 
-  const maxX = window.innerWidth - btnWidth - margin;
-  const maxY = window.innerHeight - btnHeight - margin;
+  const maxX = Math.max(margin, window.innerWidth - btnWidth - margin);
+  const maxY = Math.max(margin, window.innerHeight - btnHeight - margin);
 
-  // Generate coordinates that aren't right on top of the YES button
   const yesRect = yesBtn.getBoundingClientRect();
   let randX, randY;
   let attempts = 0;
@@ -268,32 +248,77 @@ function triggerEvade(e) {
     randY = margin + Math.random() * (maxY - margin);
     attempts++;
   } while (
-    attempts < 8 &&
-    randX > yesRect.left - 60 &&
-    randX < yesRect.right + 60 &&
-    randY > yesRect.top - 60 &&
-    randY < yesRect.bottom + 60
+    attempts < 10 &&
+    randX > yesRect.left - 70 &&
+    randX < yesRect.right + 70 &&
+    randY > yesRect.top - 70 &&
+    randY < yesRect.bottom + 70
   );
 
   noBtn.style.left = `${randX}px`;
   noBtn.style.top = `${randY}px`;
-
-  // Scale down "No" slightly as it gets more desperate
-  const noScale = Math.max(0.72, 1 - evadeCount * 0.03);
-  noBtn.style.transform = `scale(${noScale})`;
 }
 
-// Attach hover, touchstart, and click handlers to the evasive button
-noBtn.addEventListener("mouseenter", triggerEvade);
-noBtn.addEventListener("pointerenter", triggerEvade);
+function handleNoAttempt(e) {
+  if (e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  // If already at Level 3, No button is already hidden
+  if (noAttemptLevel >= 3) return;
+
+  noAttemptLevel++;
+
+  if (noAttemptLevel === 1) {
+    // LEVEL 1: First attempt to click/tap No
+    teleportNoButton();
+    yesBtn.style.transform = "scale(1.25)";
+    noBtn.style.transform = "scale(0.85)";
+    noBtnText.textContent = "Wait, really?? 🥺";
+
+    // Mascot reaction
+    pandaCharacter.classList.add("is-shocked");
+    setTimeout(() => pandaCharacter.classList.remove("is-shocked"), 500);
+    speechBubble.querySelector("span").textContent = "HEY! Did you just try to click No?! Look at the pink button! 😱👉";
+    evadeCounter.textContent = "Level 1: 'No' teleported away! The YES button is growing... 🏃‍♂️💨";
+  } 
+  else if (noAttemptLevel === 2) {
+    // LEVEL 2: Second attempt to click/tap No
+    teleportNoButton();
+    yesBtn.style.transform = "scale(1.65)";
+    noBtn.style.transform = "scale(0.68)";
+    noBtnText.textContent = "Still trying?? 💨";
+
+    // Mascot reaction
+    pandaCharacter.classList.add("is-shocked");
+    setTimeout(() => pandaCharacter.classList.remove("is-shocked"), 500);
+    speechBubble.querySelector("span").textContent = "You're persistent, but resistance is futile!! 😂🐼";
+    evadeCounter.textContent = "Level 2: Dodged again! Look how huge YES is now! ✨";
+  } 
+  else if (noAttemptLevel >= 3) {
+    // LEVEL 3: Third attempt to click/tap No
+    noBtn.classList.add("is-hidden");
+
+    // YES button expands to take over ~50% of the screen!
+    yesBtn.style.transform = "";
+    yesBtn.classList.add("yes-mega-takeover");
+    yesBtn.querySelector(".btn-subtext").textContent = "You have no other choice now, my love! ❤️";
+
+    // Mascot celebration
+    pandaCharacter.classList.add("is-celebrating");
+    speechBubble.querySelector("span").textContent = "Oops, 'No' vanished into thin air! There is only ONE way forward now! Hehe 🥰🐼";
+    evadeCounter.textContent = "Level 3: The universe has spoken. Click YES! 💖";
+  }
+}
+
+// Bind attempts on No button: pointerdown & touchstart for instant dodge, click fallback
+noBtn.addEventListener("pointerdown", handleNoAttempt);
 noBtn.addEventListener("touchstart", (e) => {
   e.preventDefault();
-  triggerEvade(e);
+  handleNoAttempt(e);
 }, { passive: false });
-noBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  triggerEvade(e);
-});
+noBtn.addEventListener("click", handleNoAttempt);
 
 /* =========================================================================
    4. CELEBRATION CHIME (Web Audio API Synthesizer)
@@ -443,15 +468,18 @@ function showCard(index) {
     const comments = [
       "Wait, keep reading!! 🥺",
       "Fact: Man United really is painful, but you cure it 💀❤️",
-      "Up the Reds! (Only for you though!) 🔴🦅",
-      "Messi is the GOAT, and you're my favorite human 🐐✨",
       "7-0 was tough, but loving you is easy 😂💔",
+      "Messi is the GOAT, and you're my favorite human 🐐✨",
+      "Rain on dry earth... so peaceful 🌧️🌿",
       "Grab a coffee and read this one ☕🥰",
-      "100% penalty for you, no debate! 📺",
+      "Just like an old timeless melody 🎻💫",
       "1 year & ~2 months of pure happiness 🗓️💖",
+      "You will always be my safe home 🏡❤️",
       "Always drawn to you like the tide 🌙🌊",
+      "Starlight shining bright for you ✨🌌",
+      "A story I'll read a million times 📖🕯️",
       "You're my World Cup trophy 🏆🌟",
-      "Read slowly! Almost at the best part... ✨"
+      "You really are my Mona Lisa 🎨💖"
     ];
     dockedBubble.querySelector("span").textContent = comments[index % comments.length] || "I love you so much! 🐼❤️";
   }
@@ -524,16 +552,20 @@ autoPlayBtn.addEventListener("click", toggleAutoPlay);
    ========================================================================= */
 redoBtn.addEventListener("click", () => {
   // Reset state
-  evadeCount = 0;
-  yesScale = 1.0;
+  noAttemptLevel = 0;
   currentCardIndex = 0;
   stopAutoPlay();
 
   // Reset YES button scale & styles
+  yesBtn.classList.remove("yes-mega-takeover");
   yesBtn.style.transform = "scale(1)";
+  const yesSubtext = yesBtn.querySelector(".btn-subtext");
+  if (yesSubtext) {
+    yesSubtext.textContent = "Obviously & completely";
+  }
 
-  // Reset NO button position & text
-  noBtn.classList.remove("is-teleporting");
+  // Reset NO button position, visibility, scale & text
+  noBtn.classList.remove("is-teleporting", "is-hidden");
   noBtn.style.left = "";
   noBtn.style.top = "";
   noBtn.style.transform = "scale(1)";
